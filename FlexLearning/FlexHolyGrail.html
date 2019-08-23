@@ -2,9 +2,61 @@
 <html>
 <head>
     <title></title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .hg-head {
+            height: 100px;
+            background-color: darkgray;
+        }
+
+        .hg-body {
+            width: 100%;
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .hg-body-left {
+            width: 150px;
+            background-color: cornflowerblue;
+        }
+
+        .hg-body-center {
+            flex-grow:1;
+            background-color: cadetblue;
+        }
+
+        .hg-body-right {
+            width: 100px;
+            background-color: orangered;
+        }
+
+        .hg-foot {
+            height: 50px;
+            background-color: darkgray;
+        }
+
+
+    </style>
 </head>
 <body>
-
+    <div class="hg-head"></div>
+    <div class="hg-body">
+        <div class="hg-body-left"></div>
+        <div class="hg-body-center"></div>
+        <div class="hg-body-right"></div>
+    </div>
+    <div class="hg-foot"></div>
 </body>
 </html>
