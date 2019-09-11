@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .fs {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .fs-head {
+            width: 100%;
+            height: 50px;
+            background-color: #808080;
+            flex-shrink: 0;
+        }
+
+        .fs-foot {
+            width: 100%;
+            height: 50px;
+            background-color: #808080;
+            flex-shrink: 0;
+        }
+
+        .fs-body {
+            width: 100%;
+            height: auto;
+            flex-grow: 1;
+            display: flex;
+        }
+
+        .fs-body-menu {
+            width: 200px;
+            background-color: #cabfbf;
+        }
+
+        .fs-body-content {
+            display: flex;
+            flex-direction: column;
+            background-color: #eee6e6;
+            flex-grow: 1;
+        }
+
+        .fs-body-content-head {
+            width: 100%;
+            height: 170px;
+            background-color: #bfa6a6;
+        }
+
+        .fs-body-content-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 50px;
+            margin-top: 20px;
+        }
+
+        .fs-body-content-body-tool {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        a.button {
+            width: 80px;
+            height: 40px;
+            background-color: #34A123;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+        }
+
+        .fs-body-content-body-list {
+            margin-top: 10px;
+            flex-grow: 1;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fs-body-content-body-list-item {
+            height: 30px;
+            border-bottom: 1px solid #808080;
+            margin: 0 40px;
+            display: flex;
+            padding: 5px;
+            justify-content: space-between;
+        }
+
+        .fs-body-content-body-list-item-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .fs-body-content-body-list-item-tool {
+            width: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .dialog-cloth {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            position: absolute;
+            background-color: #aaaaaa;
+            z-index: 97;
+            opacity: .3;
+        }
+
+        .dialog-content {
+            width: 500px;
+            height: 200px;
+            top: 300px;
+            left: 400px;
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 98;
+            box-shadow: 1px 1px 2px 1px rgba(180, 180, 180, 0.5);
+        }
+
+        .dialog-content-head {
+            height: 38px;
+            background-color: #f4f5f9;
+            border-bottom: 1px solid rgba(180, 180, 180, 0.5);
+            border-radius: 3px 3px 0px 0px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .dialog-content-head h3 {
+                font-weight: 400;
+                font-style: normal;
+                color: #222;
+                display: inline;
+            }
+
+        .closeBtn, button, a {
+            cursor: pointer;
+        }
+
+        .dialog-content-body {
+            background-color: #ffffff;
+            padding: 30px 30px 45px;
+        }
+
+        .dialog-content-foot {
+            height: 80px;
+            padding: 10px 0;
+            background-color: #f4f5f9;
+            border-top: 1px solid #e7e7eb;
+            border-radius: 0px 0px 3px 3px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="fs">
+        <div class="fs-head"></div>
+        <div class="fs-body">
+            <div class="fs-body-menu"></div>
+            <div class="fs-body-content">
+                <div class="fs-body-content-head"></div>
+                <div class="fs-body-content-body">
+                    <div class="fs-body-content-body-tool">
+                        <a class="button">新增</a>
+                    </div>
+                    <div class="fs-body-content-body-list">
+                        <div class="fs-body-content-body-list-item" v-for="(user,index) in Users">
+                            <div class="fs-body-content-body-list-item-content">{{user.name}}</div>
+                            <div class="fs-body-content-body-list-item-tool"><button v-on:click="deleteUser(user.id,index)">删除</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fs-foot"></div>
+    </div>
+
+    <div id="dialog" v-show="isShow">
+        <div class="dialog-cloth"></div>
+        <div class="dialog-content">
+            <div class="dialog-content-head">
+                <h3>{{showTitle}}</h3>
+                <a class="closeBtn" v-on:click="CloseDialog()">关闭</a>
+            </div>
+            <div class="dialog-content-body">
+                <span>{{showMessage}}</span>
+            </div>
+            <div class="dialog-content-foot">
+                <a class="button main" v-on:click="ExecEventHandle()">确认</a>
+                <a class="button " v-on:click="CloseDialog()">取消</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script>
+        function User() {
+            this.id = 0;
+            this.name = "";
+        }
+
+        var users = [];
+        var user1 = new User();
+        user1.id = 1;
+        user1.name = "张三";
+        users.push(user1);
+
+        var user2 = new User();
+        user2.id = 2;
+        user2.name = "李四";
+        users.push(user2);
+
+        var user3 = new User();
+        user3.id = 3;
+        user3.name = "王五";
+        users.push(user3);
+
+        var user4 = new User();
+        user4.id = 4;
+        user4.name = "马六";
+        users.push(user4);
+
+        var vm = new Vue({
+            el: '.fs',
+            data: {
+                Users: users
+            },
+            methods: {
+                deleteUser: function (id, index) {
+                    var user = this.Users.find(x => x.id === id);
+                    dialogVM.Show("删除确认", "确认删除用户 " + user.name + " 吗？", function () {
+                        vm.Users.splice(index, 1);
+                    });
+                }
+            }
+        })
+
+        var eventHandle;
+        var dialogVM = new Vue({
+            el: '#dialog',
+            data: {
+                isShow: false,
+                showMessage: "",
+                showTitle: ""
+            },
+            methods: {
+                ExecEventHandle: function () {
+                    if ($.isFunction(eventHandle)) {
+                        eventHandle();
+                    }
+                    dialogVM.isShow = false;
+                },
+                Show: function (title, message, handle) {
+                    dialogVM.isShow = true;
+                    dialogVM.showTitle = title;
+                    dialogVM.showMessage = message;
+                    eventHandle = handle;
+                },
+                CloseDialog: function () {
+                    dialogVM.isShow = false;
+                }
+
+            },
+
+        });
+    </script>
+</body>
+</html>
